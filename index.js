@@ -1,28 +1,48 @@
-const pickerBtn = document.querySelector("#picker-btn");
-const exportBtn = document.querySelector("#export-btn");
-const clearBtn = document.querySelector("#clear-btn");
-const colorList = document.querySelector(".all-colors");
+// Event Listeners Setup:
+// These lines set up variables to reference these HTML elements.
 
-let pickedColors = JSON.parse(localStorage.getItem("color-list")) || [];
+const pickerBtn = document.querySelector("#picker-btn"); /* Selects the "Pick Color" button. */
+const exportBtn = document.querySelector("#export-btn"); /* Selects the "Export Color" button.
+*/
+const clearBtn = document.querySelector("#clear-btn"); /* Selects the "Clear All" button */
+const colorList = document.querySelector(".all-colors"); /* Selects the container for displaying picked colors. */
 
-let currentPopUp = null;
 
-const copyToClipboard = async(text,element) => {
-    try{
+// Local Storage Initialization:
+
+let pickedColors = JSON.parse(localStorage.getItem("color-list")) || [];  //Retrieves the previously picked colors from local storage, or initializes an empty array if none exist.
+
+
+// Color Popup Variable:
+
+let currentPopUp = null; // Initializes a variable to keep track of the currently displayed color popup (if any).
+
+
+
+//copyToClipboard Function:
+const copyToClipboard = async (text, element) => {
+    try {
         await navigator.clipboard.writeText(text);
         element.innerText = "Copied!";
-        setTimeout(() =>{
+        setTimeout(() => {
             element.innerText = text;
-        },1000);
+        }, 1000);
     }
-    catch(err){
+    catch (err) {
         alert("Failed to copy text! 1")
     }
 }
 
-const exportColor = () =>{
+
+
+// exportColor Function:
+//export the picked colors as a text file.
+// Converts the array into a newline-separated string.
+// Creates a Blob (Binary Large Object) with the text data and sets it as a downloadable link.
+// Simulates a click on the link to trigger the download and then removes the link.
+const exportColor = () => {
     const colorText = pickedColors.join("\n");
-    const blob = new Blob([colorText],{type:"text/plain"});
+    const blob = new Blob([colorText], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a"); //<a></a>
     a.href = url;
@@ -31,8 +51,15 @@ const exportColor = () =>{
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-} 
+}
 
+
+
+
+// createColorPopup Function:
+// create a popup displaying color information.
+// dynamic generation of HTML
+// Event listeners are set up
 const createColorPopup = (color) => {
     const popup = document.createElement("div");
     popup.classList.add("color-popup");
@@ -74,6 +101,12 @@ const createColorPopup = (color) => {
     return popup;
 };
 
+
+// showColors Function:
+// Updates the displayed list 
+// Dynamically generates HTML for each color entry
+// Sets up event listeners
+// Toggles the visibility
 const showColors = () => {
     colorList.innerHTML = pickedColors.map((color) =>
         `
@@ -102,14 +135,20 @@ const showColors = () => {
     pickedColorsContainer.classList.toggle("hide", pickedColors.length === 0);
 };
 
-const hexToRgb = (hex) =>{
-    const bigInt = parseInt(hex.slice(1),16);
-    const r = (bigInt >> 16 ) & 255;
+
+// hexToRgb Function:
+// To convert a hex color value to an RGB color value.
+
+const hexToRgb = (hex) => {
+    const bigInt = parseInt(hex.slice(1), 16);
+    const r = (bigInt >> 16) & 255;
     const g = (bigInt >> 8) & 255;
     const b = bigInt & 255;
     return `rgb(${r}, ${g}, ${b})`;
 }
 
+
+// activateEyeDropper Function:
 const activateEyeDropper = async () => {
     document.body.style.display = "none";
     try {
@@ -128,14 +167,17 @@ const activateEyeDropper = async () => {
     }
 };
 
+
+// clearAll Function:
 const clearAll = () => {
     pickedColors = [];
     localStorage.removeItem("colors-list");
     showColors();
 }
 
-pickerBtn.addEventListener('click',activateEyeDropper);
-clearBtn.addEventListener('click',clearAll);
-exportBtn.addEventListener('click',exportColor);
+// Event Listeners:
+pickerBtn.addEventListener('click', activateEyeDropper);
+clearBtn.addEventListener('click', clearAll);
+exportBtn.addEventListener('click', exportColor);
 
-showColors();
+showColors(); // Initially displays any previously picked colors when the page loads.
