@@ -1,30 +1,39 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
-*{
+/* Font Import */
+
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    /* border-box is a good property to add here */
     font-family: 'Ubuntu', sans-serif;
 }
 
-.container{
+.container {
     background-color: #e9e9e9;
     width: 360px;
 }
 
-.container :where(.picker,header, .all-colors){
+.container :where(.picker, header, .all-colors) {
+    /*Pseudo class to select elements with the classes .picker, header, and .all-colors inside the .container. */
     display: flex;
     align-items: center;
 }
+
 .container .picker {
     padding: 35px 0;
+    /*top and bottom padding */
     background-color: #2475a3;
     justify-content: center;
+    /*horizontal center*/
 }
-.picker #picker-btn{
+
+.picker #picker-btn {
     margin-right: 10px;
 }
-.picker #picker-btn, .picker #export-btn{
+
+.picker #picker-btn,
+.picker #export-btn {
     border: none;
     outline: none;
     color: #fff;
@@ -35,41 +44,53 @@
     border-radius: 10%;
     transition: all 0.4s ease;
 }
-.picker #picker-btn:hover, .picker #export-btn:hover{
+
+.picker #picker-btn:hover,
+.picker #export-btn:hover {
     background-color: #041e3b;
 }
-.color-list{
+
+.color-list {
     margin: 10px 15px;
 }
-.color-list header{
+
+.color-list header {
     justify-content: space-between;
 }
-header .heading{
+
+header .heading {
     font-size: 1rem;
 }
-header #clear-btn{
+
+header #clear-btn {
     font-size: 0.9rem;
     cursor: pointer;
     color: #2475a3;
 }
 
-header #clear-btn:hover{
+header #clear-btn:hover {
     color: #103d71;
 }
-.color-list .all-colors{
+
+.color-list .all-colors {
     flex-wrap: wrap;
     list-style: none;
     margin: 10px 0 0;
 }
-.color-list.hide{
+
+.color-list.hide {
     display: none;
+    /* When display is set to none, it hides the element from the layout, and it won't be visible on the web page. The element is effectively removed from the rendering flow, so it doesn't take up any space, and it's not interactive. */
 }
-.all-colors .color{
+
+.all-colors .color {
     display: flex;
     cursor: pointer;
     margin-bottom: 10px;
     width: calc(100% / 3);
+    /* each .color element will have a width that is one-third of the width of its parent container, allowing three elements to fit side by side within that container. */
 }
+
 .all-colors .rect {
     height: 22px;
     width: 22px;
@@ -77,54 +98,64 @@ header #clear-btn:hover{
     margin-right: 3px;
     border-radius: 3px;
 }
-.all-colors .color span{
+
+.all-colors .color span {
     font-size: 0.86rem;
     font-weight: 500;
     text-transform: uppercase;
 }
-.color-popup{
+
+.color-popup {
     position: fixed;
     top: 52px;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
+    /* to move or translate an element horizontally and vertically relative to its own size */
     width: 300px;
     background-color: #ffff;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0 ,0,0,0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 9999;
 }
-.color-popup-content{
+
+.color-popup-content {
     padding: 20px;
 }
-.color-info{
+
+.color-info {
     display: flex;
     align-items: center;
 }
-.color-preview{
+
+.color-preview {
     width: 50px;
     height: 50px;
     border-radius: 5px;
     margin-right: 10px;
 }
-.color-details{
+
+.color-details {
     flex-grow: 1;
+    /* This property is a non-negative number that determines how much an item can grow relative to other flex items in the same container. */
 }
-.color-value{
+
+.color-value {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
 
 }
 
-.label{
+.label {
     font-weight: bold;
     margin-right: 5px;
 }
 
-.value{
+.value {
     cursor: pointer;
 }
-span.close-popup{
+
+span.close-popup {
     font-size: 19px;
     cursor: pointer;
     float: right;
